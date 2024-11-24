@@ -7,9 +7,7 @@
     <title>Mess Owner Login</title>
 
     <!-- Google Fonts and Bootstrap CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
 
     <style>
         body {
@@ -111,15 +109,15 @@
     <div class="main-container">
         <div class="form-box">
             <h2>Mess Owner Login</h2>
-            <form action="/login" method="POST">
+            <form id="login-form">
                 <div class="input-group">
-                    <input type="email" class="form-control" placeholder="Email" required>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
                 </div>
                 <div class="input-group">
-                    <input type="password" class="form-control" placeholder="Password" required>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
                 </div>
                 <button type="submit" class="btn">Login</button>
-                <p class="signup-text">Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+                <p class="signup-text">Don't have an account? <a href="{% url 'owners:signup' %}">Sign Up</a></p>
             </form>
 
             <!-- Google Login Button -->
@@ -129,8 +127,7 @@
 
             <!-- Custom Google Login Button -->
             <div class="social-login-btns">
-                <button class="google-btn" onclick="window.location.href='https://accounts.google.com/signin'">Sign in
-                    with Google</button>
+                <button class="google-btn" onclick="window.location.href='#'">Sign in with Google</button>
             </div>
         </div>
     </div>
@@ -139,7 +136,40 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Google Sign-In function
+        // Handle login form submission
+        document.getElementById('login-form').onsubmit = async function (e) {
+            e.preventDefault(); // Prevent form from submitting the usual way
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/owners/api/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,  // Send username instead of email
+                    password: password,
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                alert("Login failed: " + errorData.detail);
+                return;
+            }
+
+            const jsonResponse = await response.json();
+            if (jsonResponse.access) {
+                // Successfully logged in, redirect to dashboard or main page
+                window.location.href = '/owners/dashboard/';
+            } else {
+                alert("Login failed: " + jsonResponse.detail);
+            }
+        };
+
+        // Google Sign-In function (if you are implementing Google login)
         function onSignIn(googleUser) {
             var profile = googleUser.getBasicProfile();
             console.log("ID: " + profile.getId());
