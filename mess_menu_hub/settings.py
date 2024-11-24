@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'menus',
     'users',
     'feedback',
+    'owners',
     
 ]
 
