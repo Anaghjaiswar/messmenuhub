@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,26 +49,26 @@
             <div class="col">
                 <div class="card p-3">
                     <h2 class="h5">Post Your Daily Menu</h2>
-                    <button onclick="location.href='menu_posting.html'" class="btn btn-primary mt-3">Go to Post Menu</button>
+                    <button onclick="location.href='{% url 'owners:menu_posting' %}'" class="btn btn-primary mt-3">Go to Post Menu</button>                
                 </div>
             </div>
             <div class="col">
                 <div class="card p-3">
                     <h2 class="h5">View, Edit & Delete Your Menu</h2>
-                    <button onclick="location.href='manage-menu.html'" class="btn btn-primary mt-3">Manage Menu</button>
+                    <button onclick="location.href='{% url 'owners:manage_menu' %}'" class="btn btn-primary mt-3">Manage Menu</button>
                 </div>
             </div>
             <div class="col">
                 <div class="card p-3">
                     <h2 class="h5">Your Ratings</h2>
-                    <button onclick="location.href=''" class="btn btn-primary mt-3">View Ratings</button>
+                    <button onclick="location.href='#'" class="btn btn-primary mt-3">View Ratings</button>
                 </div>
             </div>
         </div>
         <div class="additional-resources mt-5">
             <h3 class="mb-3">Additional Resources</h3>
             <p>Explore resources to improve menu management.</p>
-            <a href="resources.html" class="btn btn-outline-secondary">View Resources</a>
+            <a href="{% url 'owners:resources' %}" class="btn btn-outline-secondary">View Resources</a>
         </div>
     </div>
 </body>
